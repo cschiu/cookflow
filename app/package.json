@@ -1,0 +1,13 @@
+{
+  "name": "cook-flow",
+  "version": "0.1",
+  "description": "Recipes Visualized",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/d3": "^7.4.0"
+  }
+}
