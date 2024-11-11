@@ -19,7 +19,7 @@ const uncooked_cabbage_pancake = new Operation("Uncooked Cabbage Pancake", [new 
 
 const cooked_cabbage_pancake = new Operation("Cooked Cabbage Pancake", [new Step("cook", new Time(6, Time_Unit.MINUTES)), new Step("flip"), new Step("cook", new Time(3, Time_Unit.MINUTES))], [uncooked_cabbage_pancake])
 
-const cabbage_pancake = new Recipe("Cabbage Pancake", cooked_cabbage_pancake)
+export const cabbage_pancake = new Recipe("Cabbage Pancake", cooked_cabbage_pancake)
 
 
 // console.log(JSON.stringify(cabbage_pancake))

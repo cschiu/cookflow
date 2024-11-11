@@ -1,3 +1,4 @@
+// TODO: add deserialization validator using ZOD: https://zod.dev/?id=basic-usage
 
 
 export class Recipe {
