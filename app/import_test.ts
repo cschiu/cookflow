@@ -1,0 +1,7 @@
+import { Recipe, Ingredient, Step, Operation, Time, Time_Unit, Ingredient_Unit} from "./RecipeMarkupLanguage"
+
+
+const json_string = '{"name":"Cabbage Pancake","ingredient":{"name":"Cooked Cabbage Pancake","qty":1,"steps":[{"instruction":"cook","time":{"duration":6,"time_unit":"minutes"}},{"instruction":"flip"},{"instruction":"cook","time":{"duration":3,"time_unit":"minutes"}}],"ingredients":[{"name":"Uncooked Cabbage Pancake","qty":1,"steps":[{"instruction":"pack"}],"ingredients":[{"name":"Heated Oil","qty":1,"steps":[{"instruction":"heat in pan"}],"ingredients":[{"name":"Vegetable Oil","qty":1,"unit":"tbsp"}]},{"name":"Cabbage Pancake Batter","qty":1,"steps":[{"instruction":"mix"}],"ingredients":[{"name":"Cabbage Pancake Pre-mix","qty":1,"steps":[{"instruction":"mix"},{"instruction":"wait","time":{"duration":10,"time_unit":"minutes"}}],"ingredients":[{"name":"Sliced Cabbage","qty":1,"steps":[{"instruction":"slice"}],"ingredients":[{"name":"Cabbage","qty":0.5}]},{"name":"Sliced Onion","qty":1,"steps":[{"instruction":"slice"}],"ingredients":[{"name":"Onion","qty":1}]},{"name":"Cut Chives","qty":1,"steps":[{"instruction":"cut 4 in"}],"ingredients":[{"name":"Chives"}]},{"name":"Diced Shrimp","qty":1,"steps":[{"instruction":"dice"}],"ingredients":[{"name":"Shrimp","qty":4,"unit":"oz"}]},{"name":"Egg","qty":1},{"name":"Soy Sauce","qty":1,"unit":"tbsp"},{"name":"Black Pepper"}]},{"name":"Flour","qty":0.5,"unit":"cup"}]}]}]}}'
+const cabbage_pancake = JSON.parse(json_string) as Recipe
+
+console.log(JSON.stringify(cabbage_pancake))
