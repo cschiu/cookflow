@@ -1,25 +1,81 @@
-import { Recipe, Ingredient, Step, Operation, Time, Time_Unit, Ingredient_Unit} from "./RecipeMarkupLanguage"
+import { Recipe, Ingredient, Step, Operation, Time, TimeUnit, IngredientUnit, Component} from "./RecipeMarkupLanguage"
 
+const cabbagePancakePreMix: Component = {
+    output: { name : "Cabbage Pancake Pre-Mix" },
+    steps : [
+        { instruction: "mix" },
+        { instruction: "wait", time: { duration: 10, timeUnit:"minutes" } },
+    ],
+    components:[
+        {
+            output: { name : "Sliced Cabbage" },
+            steps: [ { instruction: "slice" } ],
+            components:[ { name: "Cabbage"} ]
+        },
+        {
+            output: { name : "Sliced Onion" },
+            steps: [ { instruction: "slice" } ],
+            components:[ { name: "Onion"} ]
+        },
+        {
+            output: { name : "Cut Chives" },
+            steps: [ { instruction: "chop to 4 in pieces" } ],
+            components:[ { name: "Chives"} ]
+        },
+        {
+            output: { name : "Diced Shrimp" },
+            steps: [ { instruction: "dice to 1cm chunks" } ],
+            components:[ { name: "Shrimp"} ]
+        },
+        { name: "Egg", qty: 1 },
+        { name: "Soy Sauce" },
+        { name: "Black Pepper" }
+    ]
+}
 
-const cabbage_pancake_premix = new Operation("Cabbage Pancake Pre-mix", [new Step("mix"), new Step("wait", new Time(10, Time_Unit.MINUTES))], [
-    new Operation("Sliced Cabbage", [new Step("slice")], [new Ingredient("Cabbage", 0.5)]),
-    new Operation("Sliced Onion", [new Step("slice")], [new Ingredient("Onion", 1)]),
-    new Operation("Cut Chives", [new Step("cut 4\"")], [new Ingredient("Chives")]),
-    new Operation("Diced Shrimp", [new Step("dice")], [new Ingredient("Shrimp", 4, Ingredient_Unit.OZ)]),
-    new Ingredient("Egg", 1),
-    new Ingredient("Soy Sauce", 1, Ingredient_Unit.TBSP),
-    new Ingredient("Black Pepper"),
-])
+const cabbagePancakeBatter: Component = {
+    output: { name : "Cabbage Pancake Batter" },
+    steps: [ { instruction:"mix together" } ],
+    components: [
+        { name :"Flour", qty: 0.5, unit: "cup" },
+        cabbagePancakePreMix
+    ]
+}
 
-const cabbage_pancake_batter = new Operation("Cabbage Pancake Batter", [new Step("mix")], [cabbage_pancake_premix, new Ingredient("Flour", 0.5, Ingredient_Unit.CUP)])
+const heatedOil: Component = {
+    output: { name : "Heated Oil" },
+    steps: [ { instruction: "heat in pan"} ],
+    components: [ { name: "Vegetable Oil"}]
+}
 
-const heated_oil = new Operation("Heated Oil", [new Step("heat in pan")], [new Ingredient("Vegetable Oil", 1, Ingredient_Unit.TBSP)])
+const cabbagePancake: Recipe = {
+    name: "Cabbage Pancake",
+    component : {
+        output: { name: "Cabbage Pancake"},
+        steps : [
+            {
+                instruction: "cook",
+                time: {
+                  duration: 6,
+                  timeUnit: "minutes"
+                }
+              },
+              {
+                instruction: "flip"
+              },
+              {
+                instruction: "cook",
+                time: {
+                  duration: 3,
+                  timeUnit: "minutes"
+                }
+              }
+        ],
+        components : [
+            heatedOil,
+            cabbagePancakeBatter
+        ]
+    }
+}
 
-const uncooked_cabbage_pancake = new Operation("Uncooked Cabbage Pancake", [new Step("pack")], [heated_oil, cabbage_pancake_batter])
-
-const cooked_cabbage_pancake = new Operation("Cooked Cabbage Pancake", [new Step("cook", new Time(6, Time_Unit.MINUTES)), new Step("flip"), new Step("cook", new Time(3, Time_Unit.MINUTES))], [uncooked_cabbage_pancake])
-
-export const cabbage_pancake = new Recipe("Cabbage Pancake", cooked_cabbage_pancake)
-
-
-// console.log(JSON.stringify(cabbage_pancake))
+console.log(JSON.stringify(cabbagePancake))

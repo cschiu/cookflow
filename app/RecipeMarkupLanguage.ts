@@ -1,71 +1,34 @@
-// TODO: add deserialization validator using ZOD: https://zod.dev/?id=basic-usage
 
-
-export class Recipe {
+export type Recipe = {
     name: string
-    ingredient: Ingredient
-
-    constructor(name: string, ingredient: Ingredient) {
-        this.name = name
-        this.ingredient = ingredient
-    }
+    component: Component
 }
 
-export class Ingredient {
+export type Component = Ingredient | Operation
+
+export type Ingredient = {
     name: string
     qty?: number
-    unit?: Ingredient_Unit
-
-    constructor(name: string, qty?: number, unit?: Ingredient_Unit) {
-        this.name = name
-        this.qty = qty
-        this.unit = unit
-    }
+    unit?: IngredientUnit
 }
 
-export class Operation extends Ingredient {
+export type Operation = {
+    output: Ingredient
     steps: Step[]
-    ingredients: Ingredient[]
-
-    constructor(output_name: string, steps: Step[], ingredients: Ingredient[]) {
-        super(output_name, 1, undefined)
-        this.steps = steps
-        this.ingredients = ingredients
-    }
+    components: Component[]
 }
 
-export class Step {
+export type Step  = {
     instruction: string
     time?: Time
-
-    constructor(instruction: string, time?: Time) {
-        this.instruction = instruction
-        this.time = time
-    }
 }
 
-export class Time {
+export type Time = {
     duration: number
-    time_unit: Time_Unit
-
-    constructor(duration: number, time_unit: Time_Unit) {
-        this.duration = duration
-        this.time_unit = time_unit
-    }
+    timeUnit: TimeUnit
 }
 
-export enum Time_Unit {
-    SECONDS = "seconds",
-    MINUTES = "minutes",
-    HOURS = "hours",
-    DAYS = "days"
-}
+export type TimeUnit = 'seconds' | 'minutes' | 'hours' | 'days'
 
-export enum Ingredient_Unit {
-    ML = "ml",
-    G = "g",
-    OZ = "oz",
-    TSP = "tsp",
-    TBSP = "tbsp",
-    CUP = "cup"
-}
+export type IngredientUnit = 'ml' | 'g' | 'oz' | 'tbsp' | 'tsp' | 'cup' | 'pt' | 'qt'
+

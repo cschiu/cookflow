@@ -38,15 +38,16 @@ The recipe depicted above is described by the following RML:
 ```json
 {
   "name": "Cabbage Pancake",
-  "ingredient": {
-    "name": "Cooked Cabbage Pancake",
-    "qty": 1,
+  "components": {
+    "output": {
+      "name": "Cabbage"
+    },
     "steps": [
       {
         "instruction": "cook",
         "time": {
           "duration": 6,
-          "time_unit": "minutes"
+          "timeUnit": "minutes"
         }
       },
       {
@@ -56,139 +57,127 @@ The recipe depicted above is described by the following RML:
         "instruction": "cook",
         "time": {
           "duration": 3,
-          "time_unit": "minutes"
+          "timeUnit": "minutes"
         }
       }
     ],
-    "ingredients": [
+    "components": [
       {
-        "name": "Uncooked Cabbage Pancake",
-        "qty": 1,
+        "output": {
+          "name": "Heated Oil"
+        },
         "steps": [
           {
-            "instruction": "pack"
+            "instruction": "heat in pan"
           }
         ],
-        "ingredients": [
+        "components": [
           {
-            "name": "Heated Oil",
-            "qty": 1,
-            "steps": [
-              {
-                "instruction": "heat in pan"
-              }
-            ],
-            "ingredients": [
-              {
-                "name": "Vegetable Oil",
-                "qty": 1,
-                "unit": "tbsp"
-              }
-            ]
+            "name": "Vegetable Oil"
+          }
+        ]
+      },
+      {
+        "output": {
+          "name": "Cabbage Pancake Batter"
+        },
+        "steps": [
+          {
+            "instruction": "mix together"
+          }
+        ],
+        "components": [
+          {
+            "name": "Flour",
+            "qty": 0.5,
+            "unit": "cup"
           },
           {
-            "name": "Cabbage Pancake Batter",
-            "qty": 1,
+            "output": {
+              "name": "Cabbage Pancake Pre-Mix"
+            },
             "steps": [
               {
                 "instruction": "mix"
+              },
+              {
+                "instruction": "wait",
+                "time": {
+                  "duration": 10,
+                  "timeUnit": "minutes"
+                }
               }
             ],
-            "ingredients": [
+            "components": [
               {
-                "name": "Cabbage Pancake Pre-mix",
-                "qty": 1,
+                "output": {
+                  "name": "Sliced Cabbage"
+                },
                 "steps": [
                   {
-                    "instruction": "mix"
-                  },
-                  {
-                    "instruction": "wait",
-                    "time": {
-                      "duration": 10,
-                      "time_unit": "minutes"
-                    }
+                    "instruction": "slice"
                   }
                 ],
-                "ingredients": [
+                "components": [
                   {
-                    "name": "Sliced Cabbage",
-                    "qty": 1,
-                    "steps": [
-                      {
-                        "instruction": "slice"
-                      }
-                    ],
-                    "ingredients": [
-                      {
-                        "name": "Cabbage",
-                        "qty": 0.5
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Sliced Onion",
-                    "qty": 1,
-                    "steps": [
-                      {
-                        "instruction": "slice"
-                      }
-                    ],
-                    "ingredients": [
-                      {
-                        "name": "Onion",
-                        "qty": 1
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Cut Chives",
-                    "qty": 1,
-                    "steps": [
-                      {
-                        "instruction": "cut 4\""
-                      }
-                    ],
-                    "ingredients": [
-                      {
-                        "name": "Chives"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Diced Shrimp",
-                    "qty": 1,
-                    "steps": [
-                      {
-                        "instruction": "dice"
-                      }
-                    ],
-                    "ingredients": [
-                      {
-                        "name": "Shrimp",
-                        "qty": 4,
-                        "unit": "oz"
-                      }
-                    ]
-                  },
-                  {
-                    "name": "Egg",
-                    "qty": 1
-                  },
-                  {
-                    "name": "Soy Sauce",
-                    "qty": 1,
-                    "unit": "tbsp"
-                  },
-                  {
-                    "name": "Black Pepper"
+                    "name": "Cabbage"
                   }
                 ]
               },
               {
-                "name": "Flour",
-                "qty": 0.5,
-                "unit": "cup"
+                "output": {
+                  "name": "Sliced Onion"
+                },
+                "steps": [
+                  {
+                    "instruction": "slice"
+                  }
+                ],
+                "components": [
+                  {
+                    "name": "Onion"
+                  }
+                ]
+              },
+              {
+                "output": {
+                  "name": "Cut Chives"
+                },
+                "steps": [
+                  {
+                    "instruction": "chop to 4 in pieces"
+                  }
+                ],
+                "components": [
+                  {
+                    "name": "Chives"
+                  }
+                ]
+              },
+              {
+                "output": {
+                  "name": "Diced Shrimp"
+                },
+                "steps": [
+                  {
+                    "instruction": "dice to 1cm chunks"
+                  }
+                ],
+                "components": [
+                  {
+                    "name": "Shrimp"
+                  }
+                ]
+              },
+              {
+                "name": "Egg",
+                "qty": 1
+              },
+              {
+                "name": "Soy Sauce"
+              },
+              {
+                "name": "Black Pepper"
               }
             ]
           }

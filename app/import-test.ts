@@ -1,7 +1,36 @@
-import { Recipe, Ingredient, Step, Operation, Time, Time_Unit, Ingredient_Unit} from "./RecipeMarkupLanguage"
+import { Recipe, Ingredient, Step, Operation, Time, TimeUnit, IngredientUnit, Component} from "./RecipeMarkupLanguage"
+import { RMLGraphGenerator } from "./RMLGraphGenerator"
+
+console.log("================")
+
+const cabbagePancakeJson = '{"name":"Cabbage Pancake","component":{"output":{"name":"Cabbage Pancake"},"steps":[{"instruction":"cook","time":{"duration":6,"timeUnit":"minutes"}},{"instruction":"flip"},{"instruction":"cook","time":{"duration":3,"timeUnit":"minutes"}}],"components":[{"output":{"name":"Heated Oil"},"steps":[{"instruction":"heat in pan"}],"components":[{"name":"Vegetable Oil"}]},{"output":{"name":"Cabbage Pancake Batter"},"steps":[{"instruction":"mix together"}],"components":[{"name":"Flour","qty":0.5,"unit":"cup"},{"output":{"name":"Cabbage Pancake Pre-Mix"},"steps":[{"instruction":"mix"},{"instruction":"wait","time":{"duration":10,"timeUnit":"minutes"}}],"components":[{"output":{"name":"Sliced Cabbage"},"steps":[{"instruction":"slice"}],"components":[{"name":"Cabbage"}]},{"output":{"name":"Sliced Onion"},"steps":[{"instruction":"slice"}],"components":[{"name":"Onion"}]},{"output":{"name":"Cut Chives"},"steps":[{"instruction":"chop to 4 in pieces"}],"components":[{"name":"Chives"}]},{"output":{"name":"Diced Shrimp"},"steps":[{"instruction":"dice to 1cm chunks"}],"components":[{"name":"Shrimp"}]},{"name":"Egg","qty":1},{"name":"Soy Sauce"},{"name":"Black Pepper"}]}]}]}}'
+const cabbagePancakeObject: Recipe = JSON.parse(cabbagePancakeJson) as Recipe
+
+console.log(cabbagePancakeObject.name)
+console.log(cabbagePancakeObject.component)
+
+const component : Component = cabbagePancakeObject.component as Component
+
+console.log(typeof component)
+
+const isOperation = (obj: any): boolean => obj.output !== undefined
+
+if (isOperation(component)) {
+    const operation : Operation = component as Operation
+    console.log(operation.output.name)
+    console.log(operation.steps)
+    console.log(operation.components)
+} else {
+    const ingredient : Ingredient = component as Ingredient
+    console.log(ingredient.name)
+}
 
 
-const json_string = '{"name":"Cabbage Pancake","ingredient":{"name":"Cooked Cabbage Pancake","qty":1,"steps":[{"instruction":"cook","time":{"duration":6,"time_unit":"minutes"}},{"instruction":"flip"},{"instruction":"cook","time":{"duration":3,"time_unit":"minutes"}}],"ingredients":[{"name":"Uncooked Cabbage Pancake","qty":1,"steps":[{"instruction":"pack"}],"ingredients":[{"name":"Heated Oil","qty":1,"steps":[{"instruction":"heat in pan"}],"ingredients":[{"name":"Vegetable Oil","qty":1,"unit":"tbsp"}]},{"name":"Cabbage Pancake Batter","qty":1,"steps":[{"instruction":"mix"}],"ingredients":[{"name":"Cabbage Pancake Pre-mix","qty":1,"steps":[{"instruction":"mix"},{"instruction":"wait","time":{"duration":10,"time_unit":"minutes"}}],"ingredients":[{"name":"Sliced Cabbage","qty":1,"steps":[{"instruction":"slice"}],"ingredients":[{"name":"Cabbage","qty":0.5}]},{"name":"Sliced Onion","qty":1,"steps":[{"instruction":"slice"}],"ingredients":[{"name":"Onion","qty":1}]},{"name":"Cut Chives","qty":1,"steps":[{"instruction":"cut 4 in"}],"ingredients":[{"name":"Chives"}]},{"name":"Diced Shrimp","qty":1,"steps":[{"instruction":"dice"}],"ingredients":[{"name":"Shrimp","qty":4,"unit":"oz"}]},{"name":"Egg","qty":1},{"name":"Soy Sauce","qty":1,"unit":"tbsp"},{"name":"Black Pepper"}]},{"name":"Flour","qty":0.5,"unit":"cup"}]}]}]}}'
-const cabbage_pancake = JSON.parse(json_string) as Recipe
+console.log("========")
 
-console.log(JSON.stringify(cabbage_pancake))
+const graphGenerator = new RMLGraphGenerator(cabbagePancakeObject)
+graphGenerator.extractLinks()
+
+console.log(graphGenerator.links)
+
+console.log("========")
