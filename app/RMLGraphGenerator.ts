@@ -2,8 +2,18 @@ import { Recipe, Ingredient, Component, Operation } from "./RecipeMarkupLanguage
 
 const isOperation = (obj: any): boolean => obj.output !== undefined
 
+export interface Node {
+    name: string;
+}
+
+export interface Link {
+    source: string;
+    target: string;
+    value: number;
+}
+
 export class RMLGraphGenerator {
-    links: Link[] = []
+    recipeSteps: RecipeStep[] = []
     recipe: Recipe
 
     constructor(recipe: Recipe) {
@@ -16,10 +26,6 @@ export class RMLGraphGenerator {
         if (isOperation(component)) {
             const operation : Operation = component as Operation
             this.extractLinksFromOperation(operation)
-        } else {
-            const ingredient : Ingredient = component as Ingredient
-            // this.links.push(new Link(ingredient.name, ingredient.name, ingredient.qty, ingredient.unit))
-            console.log(ingredient.name)
         }
     }
 
@@ -30,21 +36,38 @@ export class RMLGraphGenerator {
         for (const component of operation.components as Component[]) {
             if (isOperation(component)) {
                 const subOp : Operation = component as Operation
-                this.links.push(new Link(subOp.output.name, operation.output.name, undefined, undefined, instructions))
-                console.log(`operation: ${operation.output.name}`)
+                this.recipeSteps.push(new RecipeStep(subOp.output.name, operation.output.name, undefined, undefined, instructions))
                 this.extractLinksFromOperation(subOp)
             } else {
                 const ingredient : Ingredient = component as Ingredient
-                this.links.push(new Link(ingredient.name, operation.output.name, ingredient.qty, ingredient.unit, instructions))
-                console.log(`ingredient: ${ingredient.name}`)
+                this.recipeSteps.push(new RecipeStep(ingredient.name, operation.output.name, ingredient.qty, ingredient.unit, instructions))
             }
         }
     }
 
+    getNodes(): Node[] {
+        const nodeSet : Set<string> = new Set<string>()
+        for (const step of this.recipeSteps as RecipeStep[]) {
+            nodeSet.add(step.source )
+            nodeSet.add(step.target)
+        }
+        return Array.from(nodeSet, (str) => ({ name : str }))
+    }
 
+    getLinks(): Link[] {
+        const links: Link[] = []
+        for (const step of this.recipeSteps as RecipeStep[]) {
+            links.push({
+                            source : step.source,
+                            target : step.target,
+                            value  : step.generateLinkWeight()
+                        })
+        }
+        return links
+    }
 }
 
-class Link {
+class RecipeStep {
     source: string
     target: string
     qty?: number

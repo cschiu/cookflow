@@ -1,7 +1,6 @@
 import { Recipe } from './RecipeMarkupLanguage.js'
 import { RMLGraphGenerator } from './RMLGraphGenerator.js'
-
-console.log("here 0")
+import { SankeyDiagram, SankeyData } from './Sankey.js'
 
 function visualizeRecipe() {
     // Get input Recipe Markup
@@ -16,15 +15,27 @@ function visualizeRecipe() {
         rmlOutput.textContent = JSON.stringify(recipe, null, 2)
     }
 
-    console.log("here 1")
-
     const graphGenerator = new RMLGraphGenerator(recipe)
     graphGenerator.extractLinks()
 
     const rmlLinks = document.getElementById("rmlLinks")
     if (rmlLinks) {
-        console.log("here 2")
-        rmlLinks.textContent = JSON.stringify(graphGenerator.links, null, 2)
+        rmlLinks.textContent = JSON.stringify(graphGenerator.recipeSteps, null, 2)
+    }
+
+    const rmlData: SankeyData = {
+        nodes: graphGenerator.getNodes(),
+        links: graphGenerator.getLinks()
+    };
+
+    generateSankey(rmlData)
+}
+
+function generateSankey(sankeyData: SankeyData) {
+    const chart = document.getElementById('chart')
+    if (chart) {
+        const diagram = new SankeyDiagram('#chart', 800, 600)
+        diagram.render(sankeyData)
     }
 }
 
@@ -74,5 +85,3 @@ const toggleLinksButton = document.getElementById('toggleLinksButton')
 if (toggleLinksButton) {
     toggleLinksButton.addEventListener('click', toggleLinksTextVisiblity);
 }
-
-console.log("here 1")

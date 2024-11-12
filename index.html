@@ -51,8 +51,22 @@
         </div>
         <div id="chart" class="chart"></div>
     </div>
-    <script type="module" src="app/dist/app.js">
-        import { visualizeRecipe } from 'dist/app.js'
+    <!-- <script type="importmap">
+        {
+          "imports": {
+            "d3": "https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js",
+            "d3-sankey": "https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.12.3/d3-sankey.min.js"
+          }
+        }
+      </script> -->
+    <script type="importmap">
+    {
+        "imports": {
+        "d3": "https://cdn.skypack.dev/d3",
+        "d3-sankey": "https://cdn.skypack.dev/d3-sankey"
+        }
+    }
     </script>
+    <script type="module" src="app/dist/app.js"></script>
 </body>
 </html>

@@ -4,7 +4,8 @@
   "description": "Recipes Visualized",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "start": "parcel index.html"
   },
   "type": "module",
   "devDependencies": {
@@ -14,7 +15,6 @@
     "@types/d3": "^7.4.3",
     "@types/d3-sankey": "^0.12.4",
     "d3": "^7.9.0",
-    "d3-sankey": "^0.12.3",
-    "zod": "^3.23.8"
+    "d3-sankey": "^0.12.3"
   }
 }
