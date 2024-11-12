@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>D3 Text Visualizer</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <title>Cookflow - Recipes Visualized</title>
     <style>
         .container {
             max-width: 800px;
@@ -35,11 +34,25 @@
 <body>
     <div class="container">
         <div class="input-area">
-            <input type="text" id="rmlInput" placeholder="Enter Recipe Markdown">
-            <button onclick="visualizeRecipe()">Visualize</button>
+            <!-- <input type="text" id="rmlInput" placeholder="Enter Recipe Markdown"> -->
+            <textarea id="rmlInput" placeholder="Enter Recipe Markdown" rows="4" cols="80"></textarea>
+            <br/>
+            <button id="visualizeButton">Visualize</button>
+        </div>
+        <div class="output-area">
+            <button id="toggleRMLButton">Show Recipe Markup</button>
+            <br/>
+            <textarea id="rmlOutput" rows="4" cols="80" readOnly=true style="display: none"></textarea>
+            <br/>
+            <button id="toggleLinksButton">Show Links</button>
+            <br/>
+            <textarea id="rmlLinks" rows="4" cols="80" readOnly=true style="display: none"></textarea>
+            <br/>
         </div>
         <div id="chart" class="chart"></div>
     </div>
-    <script src="app/dist/app.js"></script>
+    <script type="module" src="app/dist/app.js">
+        import { visualizeRecipe } from 'dist/app.js'
+    </script>
 </body>
 </html>

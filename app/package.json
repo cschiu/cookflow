@@ -6,6 +6,7 @@
     "build": "tsc",
     "watch": "tsc --watch"
   },
+  "type": "module",
   "devDependencies": {
     "typescript": "^5.0.0"
   },

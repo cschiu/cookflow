@@ -1,5 +1,5 @@
-import { Recipe, Ingredient, Step, Operation, Time, TimeUnit, IngredientUnit, Component} from "./RecipeMarkupLanguage"
-import { RMLGraphGenerator } from "./RMLGraphGenerator"
+import { Recipe, Ingredient, Operation, Component } from './RecipeMarkupLanguage.js'
+import { RMLGraphGenerator } from './RMLGraphGenerator.js'
 
 console.log("================")
 
