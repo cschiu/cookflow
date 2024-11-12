@@ -24,7 +24,8 @@ export class RMLGraphGenerator {
     }
 
     extractLinksFromOperation(operation: Operation) {
-        const instructions: string[] = operation.steps.map(step => step.instruction)
+        const instructions: string[] = operation.steps.map(step => step.time !== undefined ?
+            `${step.instruction} for ${step.time?.duration} ${step.time?.timeUnit}` : `${step.instruction}`)
         
         for (const component of operation.components as Component[]) {
             if (isOperation(component)) {
@@ -40,20 +41,7 @@ export class RMLGraphGenerator {
         }
     }
 
-    // extractLinksFromComponent(component: Component) {
-    //     if (isOperation(component)) {
-    //         const operation : Operation = component as Operation
-    //         for (const component of operation.components) {
-    //             this.links.push(new Link(component. operation.output.name, undefined, undefined, operation.steps.map(step => step.instruction)))
-    //             console.log(`operation: ${operation.output.name}`)
-    //             this.extractLinksFromComponent(component)
-    //         }
-    //     } else {
-    //         const ingredient : Ingredient = component as Ingredient
-    //         this.links.push(new Link(ingredient.name, parent, ingredient.qty, ingredient.unit, undefined))
-    //         console.log(`ingredient: ${ingredient.name}`)
-    //     }
-    // }
+
 }
 
 class Link {
