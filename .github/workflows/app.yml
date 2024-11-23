@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: npm install —prefix ./app
+        run: npm install --prefix ./app
       - name: Compile TypeScript
         run: npx tsc
       - name: Setup Pages
