@@ -67,7 +67,8 @@ export class SankeyDiagram {
 
         // Add hover effects to links
         link.append('title')
-            .text(d => `${(d.source as any).name} → ${(d.target as any).name}\n${d.value}`);
+            // .text(d => `${(d.source as any).name} → ${(d.target as any).name}\n${d.value}`);
+            .text(d => `${d.label}`)
 
         // Draw the nodes
         const node = this.svg.append('g')

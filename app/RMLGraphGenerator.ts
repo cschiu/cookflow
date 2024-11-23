@@ -10,6 +10,7 @@ export interface Link {
     source: string;
     target: string;
     value: number;
+    label?: string[];
 }
 
 export class RMLGraphGenerator {
@@ -48,7 +49,7 @@ export class RMLGraphGenerator {
     getNodes(): Node[] {
         const nodeSet : Set<string> = new Set<string>()
         for (const step of this.recipeSteps as RecipeStep[]) {
-            nodeSet.add(step.source )
+            nodeSet.add(step.source)
             nodeSet.add(step.target)
         }
         return Array.from(nodeSet, (str) => ({ name : str }))
@@ -60,7 +61,8 @@ export class RMLGraphGenerator {
             links.push({
                             source : step.source,
                             target : step.target,
-                            value  : step.generateLinkWeight()
+                            value  : step.generateLinkWeight(),
+                            label : step.instructions
                         })
         }
         return links
