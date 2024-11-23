@@ -36,7 +36,7 @@ export class RMLGraphGenerator {
         for (const component of operation.components as Component[]) {
             if (isOperation(component)) {
                 const subOp : Operation = component as Operation
-                this.recipeSteps.push(new RecipeStep(subOp.output.name, operation.output.name, undefined, undefined, instructions))
+                this.recipeSteps.push(new RecipeStep(subOp.output.name, operation.output.name, subOp.output.qty,  subOp.output.unit, instructions))
                 this.extractLinksFromOperation(subOp)
             } else {
                 const ingredient : Ingredient = component as Ingredient

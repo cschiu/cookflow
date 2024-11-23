@@ -1,7 +1,9 @@
 import { Recipe, Component } from "./RecipeMarkupLanguage"
 
 const cabbagePancakePreMix: Component = {
-    output: { name : "Cabbage Pancake Pre-Mix" },
+    output: { name : "Cabbage Pancake Pre-Mix",
+              qty : 7,
+            },
     steps : [
         { instruction: "mix" },
         { instruction: "wait", time: { duration: 10, timeUnit:"minutes" } },
@@ -34,7 +36,9 @@ const cabbagePancakePreMix: Component = {
 }
 
 const cabbagePancakeBatter: Component = {
-    output: { name : "Cabbage Pancake Batter" },
+    output: { name : "Cabbage Pancake Batter",
+              qty : 7.5
+            },
     steps: [ { instruction:"mix together" } ],
     components: [
         cabbagePancakePreMix,
@@ -51,7 +55,9 @@ const heatedOil: Component = {
 const cabbagePancake: Recipe = {
     name: "Cabbage Pancake",
     component : {
-        output: { name: "Cabbage Pancake"},
+        output: { name: "Cabbage Pancake",
+                  qty : 8.5
+                },
         steps : [
             {
                 instruction: "cook",
