@@ -38,7 +38,7 @@ jobs:
       - name: Install dependencies
         run: npm install --prefix ./app
       - name: Compile TypeScript
-        run: npx tsc
+        run: cd ./app && npx tsc
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
