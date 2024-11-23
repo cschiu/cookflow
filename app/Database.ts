@@ -70,6 +70,19 @@ export class Database {
     });
   }
 
+  public getAllRecipeNames(): Promise<{ name: string }[]> {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT name FROM recipes;`;
+      this.db.all(query, (err, rows: { name: string }[] | undefined) => {
+        if (err) {
+          reject(new Error(`Failed to retrieve recipes: ${err.message}`));
+        } else {
+          resolve(rows || []);
+        }
+      });
+    });
+  }
+
   public close(): void {
     this.db.close((err) => {
       if (err) {

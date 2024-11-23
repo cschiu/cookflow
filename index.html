@@ -29,21 +29,40 @@
         .bar:hover {
             fill: brown;
         }
+        /* Added styles for dropdown */
+        .dropdown-container {
+            margin-bottom: 15px;
+        }
+        #recipeSelect {
+            padding: 8px;
+            width: 200px;
+            margin-right: 10px;
+        }
+        .button {
+            padding: 8px 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="input-area">
+            <!-- Added dropdown and load button -->
+            <div class="dropdown-container">
+                <select id="recipeSelect">
+                    <option value="">Select a recipe...</option>
+                </select>
+                <button id="loadRecipeButton" class="button">Load Recipe</button>
+            </div>
             <textarea id="rmlInput" placeholder="Enter Recipe Markdown" rows="4" cols="80"></textarea>
             <br/>
-            <button id="visualizeButton">Visualize</button>
+            <button id="visualizeButton" class="button">Visualize</button>
         </div>
         <div class="output-area">
-            <button id="toggleRMLButton">Show Recipe Markup</button>
+            <button id="toggleRMLButton" class="button">Show Recipe Markup</button>
             <br/>
             <textarea id="rmlOutput" rows="4" cols="80" readOnly=true style="display: none"></textarea>
             <br/>
-            <button id="toggleLinksButton">Show Links</button>
+            <button id="toggleLinksButton" class="button">Show Links</button>
             <br/>
             <textarea id="rmlLinks" rows="4" cols="80" readOnly=true style="display: none"></textarea>
             <br/>

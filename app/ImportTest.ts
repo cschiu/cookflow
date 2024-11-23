@@ -39,7 +39,7 @@ console.log("========")
 
 console.log("writing to db")
 const db = new Database();
-console.log(`existing recipes: ${JSON.stringify(await db.getAllRecipes())}`)
+console.log(`existing recipes: ${JSON.stringify(await db.getAllRecipeNames())}`)
 console.log(`inserting ${cabbagePancakeObject.name}`)
 db.addRecipe(cabbagePancakeObject.name, JSON.stringify(cabbagePancakeObject)).catch((err) => console.error(err))
 console.log(`existing recipes: ${JSON.stringify(await db.getAllRecipes())}`)
