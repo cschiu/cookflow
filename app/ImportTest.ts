@@ -29,8 +29,9 @@ if (isOperation(component)) {
 console.log("========")
 
 const graphGenerator = new RMLGraphGenerator(cabbagePancakeObject)
-graphGenerator.extractLinks()
+graphGenerator.extractGraph()
 
-console.log(graphGenerator.recipeSteps)
+console.log(graphGenerator.nodes)
+console.log(graphGenerator.links)
 
 console.log("========")

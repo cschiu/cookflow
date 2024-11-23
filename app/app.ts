@@ -16,22 +16,23 @@ function visualizeRecipe() {
     }
 
     const graphGenerator = new RMLGraphGenerator(recipe)
-    graphGenerator.extractLinks()
+    graphGenerator.extractGraph()
 
     const rmlLinks = document.getElementById("rmlLinks")
     if (rmlLinks) {
-        rmlLinks.textContent = JSON.stringify(graphGenerator.recipeSteps, null, 2)
+        rmlLinks.textContent = JSON.stringify(graphGenerator.links, null, 2)
     }
 
-    const rmlData: SankeyData = {
-        nodes: graphGenerator.getNodes(),
-        links: graphGenerator.getLinks()
+    const sankeyData: SankeyData = {
+        nodes: [...graphGenerator.nodes.values()],
+        links: graphGenerator.links
     };
 
-    generateSankey(rmlData)
+    generateSankey(sankeyData)
 }
 
 function generateSankey(sankeyData: SankeyData) {
+    console.log(sankeyData)
     const chart = document.getElementById('chart')
     if (chart) {
         const diagram = new SankeyDiagram('#chart', 800, 600)

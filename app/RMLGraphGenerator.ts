@@ -1,91 +1,104 @@
-import { Recipe, Ingredient, Component, Operation } from "./RecipeMarkupLanguage"
-
-const isOperation = (obj: any): boolean => obj.output !== undefined
+import { Recipe, Ingredient, Component, Operation } from "./RecipeMarkupLanguage.js"
+import { normalizeToGrams, normalizeToGramsByName } from "./TypeConversion.js"
 
 export interface Node {
     name: string;
+    value: number;
+    label: string;
 }
 
 export interface Link {
     source: string;
     target: string;
     value: number;
-    label?: string[];
+    label: string;
+}
+
+const isOperation = (obj: any): boolean => obj.output !== undefined
+
+function getIngredientWeight(ingredient : Ingredient) : number {
+    if (ingredient.qty && ingredient.unit) {
+        return normalizeToGrams(ingredient.qty, ingredient.unit)
+    } else {
+        const qty = ingredient.qty ? ingredient.qty : 1;
+        return normalizeToGramsByName(ingredient.name) * qty;
+    }
 }
 
 export class RMLGraphGenerator {
-    recipeSteps: RecipeStep[] = []
     recipe: Recipe
+    nodes: Map<String, Node>
+    links: Link[]
 
     constructor(recipe: Recipe) {
-        this.recipe = recipe
+        this.recipe = recipe;
+        this.nodes = new Map<String, Node>()
+        this.links = []
     }
 
-    extractLinks() {
+    extractGraph() {
         const component = this.recipe.component
 
         if (isOperation(component)) {
             const operation : Operation = component as Operation
-            this.extractLinksFromOperation(operation)
+            this.extractGraphFromOperation(operation)
+            this._computeNodeWeights(operation);
+            this._computeLinkWeights();
+        } else {
+            const ingredient = component as Ingredient
+            this.nodes.set(ingredient.name, { name : ingredient.name, value : getIngredientWeight(ingredient), label : '' })
         }
     }
 
-    extractLinksFromOperation(operation: Operation) {
+    extractGraphFromOperation(operation: Operation) {
         const instructions: string[] = operation.steps.map(step => step.time !== undefined ?
-            `${step.instruction} for ${step.time?.duration} ${step.time?.timeUnit}` : `${step.instruction}`)
+            `  - ${step.instruction} for ${step.time?.duration} ${step.time?.timeUnit}` : `  - ${step.instruction}`)
         
+        let target = this.getNode(operation.output.name)
+        target.label = `${instructions.join('\n')}`
+
         for (const component of operation.components as Component[]) {
             if (isOperation(component)) {
                 const subOp : Operation = component as Operation
-                this.recipeSteps.push(new RecipeStep(subOp.output.name, operation.output.name, subOp.output.qty,  subOp.output.unit, instructions))
-                this.extractLinksFromOperation(subOp)
+                this.links.push({ source: subOp.output.name, target: operation.output.name, value: 0, label: '' })
+                this.extractGraphFromOperation(subOp)
             } else {
                 const ingredient : Ingredient = component as Ingredient
-                this.recipeSteps.push(new RecipeStep(ingredient.name, operation.output.name, ingredient.qty, ingredient.unit, instructions))
+                this.links.push({ source: ingredient.name, target: operation.output.name, value: 0, label: '' })
+                const node = this.getNode(ingredient.name)
+                node.value += getIngredientWeight(ingredient)
             }
         }
     }
 
-    getNodes(): Node[] {
-        const nodeSet : Set<string> = new Set<string>()
-        for (const step of this.recipeSteps as RecipeStep[]) {
-            nodeSet.add(step.source)
-            nodeSet.add(step.target)
+    _computeNodeWeights(component : Component) : number {
+        if (isOperation(component)) {
+            const op = component as Operation
+            const node = this.getNode(op.output.name)
+            for (const subComp of op.components as Component[]) {
+                node.value += this._computeNodeWeights(subComp)
+            }
+            return node.value
+        } else {
+            const ingredient : Ingredient = component as Ingredient
+            return this.getNode(ingredient.name).value
         }
-        return Array.from(nodeSet, (str) => ({ name : str }))
     }
 
-    getLinks(): Link[] {
-        const links: Link[] = []
-        for (const step of this.recipeSteps as RecipeStep[]) {
-            links.push({
-                            source : step.source,
-                            target : step.target,
-                            value  : step.generateLinkWeight(),
-                            label : step.instructions
-                        })
+    _computeLinkWeights() {
+        for (const link of this.links as Link[]) {
+            link.value = this.getNode(link.source).value
         }
-        return links
+    }
+
+    getNode(name: string): Node {
+        let node = this.nodes.get(name);
+        if (node === undefined) {
+            node = { name, value : 0, label : '' };
+            this.nodes.set(name, node);
+        }
+        return node;
     }
 }
 
-class RecipeStep {
-    source: string
-    target: string
-    qty?: number
-    unit?: string
-    instructions?: string[]
 
-    constructor(source: string, target: string, qty?: number, unit?: string, instructions?: string[]){
-        this.source = source
-        this.target = target
-        this.qty = qty
-        this.unit = unit
-        this.instructions = instructions
-    }
-
-    // TODO: come up with better logic to handle converting qty and units to link weights
-    generateLinkWeight(): number {
-        return this.qty != null ? this.qty : 1
-    }
-}
