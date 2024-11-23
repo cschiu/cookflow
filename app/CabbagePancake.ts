@@ -2,7 +2,7 @@ import { Recipe, Component } from "./RecipeMarkupLanguage"
 
 const cabbagePancakePreMix: Component = {
     output: { name : "Cabbage Pancake Pre-Mix",
-              qty : 7,
+              qty : 7
             },
     steps : [
         { instruction: "mix" },
