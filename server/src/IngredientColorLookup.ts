@@ -139,7 +139,7 @@ export class IngredientColorLookup {
     3. **Pair the Ingredient with the Hex Code**: Format the pairing as \`[ingredient]: [hex code]\`.
     
     # Output Format
-    You must return a JSON object in the following format:
+    You must return a JSON object in the following format, do not wrap it in markdown code tags:
 
     {
       "name": "ingredient_color_pairing",
